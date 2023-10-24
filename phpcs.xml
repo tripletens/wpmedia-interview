@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Laravel">
+    <!-- Coding standard to use (e.g., PSR2) -->
+    <arg name="standard" value="PSR2"/>
+
+    <description>Laravel Coding Standard</description>
+
+    <!-- Define the paths to your Laravel project files -->
+    <file>app</file>
+    <file>bootstrap</file>
+    <file>config</file>
+    <file>database</file>
+    <file>public</file>
+    <file>resources</file>
+    <file>routes</file>
+    <file>tests</file>
+
+
+    <!-- Exclude specific files/directories -->
+    <exclude-pattern>public/build</exclude-pattern>
+</ruleset>

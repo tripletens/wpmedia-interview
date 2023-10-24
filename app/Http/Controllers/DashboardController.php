@@ -102,7 +102,6 @@ class DashboardController extends Controller
     }
 
     // fetch all the saved results
-
     public function results(){
         $results = Results::all();
 
@@ -168,4 +167,11 @@ class DashboardController extends Controller
         return false;
     }
 
+    public function run_cron_job()
+    {
+        \Artisan::call('app:crawl-job');
+
+        // Redirect back to the previous page or to a success page
+        return redirect()->back()->with('success', 'Hourly crawling started successfully');
+    }
 }

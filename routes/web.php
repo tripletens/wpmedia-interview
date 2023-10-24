@@ -26,6 +26,10 @@ Route::post('/analyze_link', [DashboardController::class, 'analyze_link'])->midd
 
 Route::get('/results', [DashboardController::class, 'results'])->middleware(['auth', 'verified'])->name('results');
 
+// i used post so its more secured then get http verb
+Route::post('/run_cron_job', [DashboardController::class, 'run_cron_job'])->middleware(['auth', 'verified'])->name('run_cron_job');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

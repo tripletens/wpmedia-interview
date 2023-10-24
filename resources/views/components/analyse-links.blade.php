@@ -15,25 +15,23 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('analyze_link') }}">
-        @csrf
-        <div class="mb-4">
-            {{--  <label for="url" class="block text-gray-700">Enter a URL:</label>  --}}
-            <input type="url" hidden class="w-full rounded-lg mt-3" name="url" value="{{ env("APP_URL") }}" id="url" value="{{ old('url') }}"
-                class="border border-gray-300 p-2 rounded-md">
-        </div>
-        <button type="submit" class="btn btn-success bg-green-300 border-2 p-2 rounded-md">Analyze
-            Homepage Links</button>
-    </form>
+    <div class="mb-4">
+        <form method="POST" action="{{ route('analyze_link') }}">
+            @csrf
+            <input type="url" hidden class="w-full rounded-lg mt-3" name="url" value="{{ env('APP_URL') }}"
+                id="url" value="{{ old('url') }}" class="border border-gray-300 p-2 rounded-md">
+            <button type="submit" class="btn btn-success bg-green-300 border-2 p-2 rounded-md">Analyze
+                Homepage Links</button>
+        </form>
+    </div>
 
-    <form method="POST" action="#">
-        @csrf
-        <div class="mb-4">
-            {{--  <label for="url" class="block text-gray-700">Enter a URL:</label>  --}}
-            <input type="url" hidden class="w-full rounded-lg mt-3" name="url" value="{{ env("APP_URL") }}" id="url" value="{{ old('url') }}"
-                class="border border-gray-300 p-2 rounded-md">
-        </div>
-        <button type="submit" class="btn btn-info bg-red-300 border-2 p-2 rounded-md">Start hourly Crawling</button>
-    </form>
+
+    {{--  over here is a post request   --}}
+    <div class="mb-4">
+        <form method="POST" action="{{ route('run_cron_job') }}">
+            @csrf
+            <button type="submit" class="btn btn-info bg-red-300 border-2 p-2 rounded-md">Start hourly
+                Crawling</button>
+        </form>
+    </div>
 </div>
-
