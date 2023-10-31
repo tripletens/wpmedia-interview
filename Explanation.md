@@ -11,13 +11,40 @@ To install and set up the project, follow these steps:
 
 1. Clone the project from the GitHub repository.
    ```shell
-   git clone https://github.com/your-github-repo/project-name.git
+   git clone https://github.com/tripletens/wpmedia-interview.git
    ```
+   - Navigate to the project directory.
+   ```shell
+    cd wpmedia-interview
+   ```
+   - Install project dependencies using Composer.
+   ```shell 
+   composer install 
+   ```
+   - Create a copy of the .env.example file and name it .env. Update the configuration settings such as the database connection information in the .env file.
+   - Generate a new application key.
+   ```shell 
+   php artisan key:generate
+   ```
+   - Add your database name and other credentials 
+   - Run database migrations to set up the database schema.
+   ```shell 
+   php artisan migrate
+   ```
+   - Seed the database with initial data.
+   ```shell 
+   php artisan db:seed
+   ```
+   - compile your css / tailwind packages 
+   ```shell 
+    npm run dev
+   ```
+   - Start the Laravel development server.
+   ```shell 
+        php artisan serve
+    ```
+    > **<span style="color:red;">Important:</span> i added my test news credentials intentionally so you can use it for testing.**
 
-- Clone from GitHub
-
-- Setup a database
-- Run your migration i.e php artisan db:seed
 
 ### TECHNOLOGIES USED
 
