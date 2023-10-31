@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User as ModelsUser;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
     {
         // create admin account
 
-        $admin = ModelsUser::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Test Admin',
             'email' => 'test@example.com',
             'password' => Hash::make("4liberty")

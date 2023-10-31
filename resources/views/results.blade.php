@@ -19,11 +19,17 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 overflow-hidden shadow-sm sm:rounded-lg">
-                <h2 class="p-6 text-3xl">Here is the list of the last saved Crawled URLs: </h2>
+                <h2 class="p-6 text-3xl my-3">Here is the list of the last saved Crawled URLs: </h2>
+
+                @if(count($results) > 0)
                 @foreach ($results as $result)
                     <li><a href="{{ $result->url }}">{{ $result->url }}</a></li>
                 @endforeach
+                @else
+                    <span class="p-6 m-6 bg-color-300 text-blue-600 border-blue-600 border-2 rounded-lg"> No Site map url available at the moment. Kindly start an analysis <a href="{{ route('dashboard') }}" class="font-bold cursor-pointer">here</a> </span>
+                @endif
             </div>
+            <br/>
         </div>
     </div>
 </x-app-layout>

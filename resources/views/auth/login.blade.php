@@ -2,6 +2,11 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <div class="flex flex-col justify-center bg-blue-200 text-blue-600 border-blue-600 border-2 rounded-lg my-3 p-6">
+        <h2 class="font-bold">Login Credentials</h2>
+        <h4>Email: test@example.com</h4>
+        <h4>Password: 4liberty</h4>
+    </div>
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

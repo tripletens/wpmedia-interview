@@ -8,12 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
     //
 
-    public function index(){
+    public function __construct(){
+
+    }
+
+    public function index()
+    {
         return view('dashboard');
     }
 
@@ -38,18 +44,13 @@ class DashboardController extends Controller
             $code = Str::random(10);
 
             // delete last crawl
-
-            if(!$this->delete_last_crawl()){
+            if (!$this->delete_last_crawl()) {
                 $delete_last_crawl_error = "Sorry we could not delete the last crawl";
 
                 return redirect()->back()->withErrors(['error' => $delete_last_crawl_error . ' => ' . $this->delete_last_crawl()]);
             };
 
-
-
-
             // end delete last crawl
-
             $results = [];
 
             foreach ($internal_links as $link) {
@@ -59,30 +60,21 @@ class DashboardController extends Controller
             foreach ($results as $link) {
                 $save_link = $this->save_link($link, $code);
 
-                if(!$save_link){
+                if (!$save_link) {
                     $save_link_error_message = "Sorry we could not save - " . $link;
                     return redirect()->back()->withErrors(['error' => $save_link_error_message]);
                 }
             }
 
-            // delete home page file
-
-            // if(!$this->delete_home_page_file()){
-            //     $file_error_message = "Sorry home page file could not be deleted. Kindly check if file exists";
-            //     return redirect()->back()->withErrors(['error' => $file_error_message]);
-            // };
+            // delete home page filex
+            $this->delete_home_page_file();
 
             // delete site map file
-
-            if(!$this->delete_site_map_file()){
-                $file_error_message = "Sorry site map file could not be deleted. Kindly check if file exists";
-                return redirect()->back()->withErrors(['error' => $file_error_message]);
-            };
+            $this->delete_site_map_file();
 
             // Create and save sitemap.html
             $sitemap = view('sitemap', ['results' => $results])->render();
 
-            // Storage::disk('local')->put("public/".$code."/sitemap.xml", $sitemap);
 
             file_put_contents(public_path('sitemap.html'), $sitemap);
 
@@ -95,30 +87,33 @@ class DashboardController extends Controller
             $save_link_success_message = "Links have been successfully saved";
 
             return redirect()->back()->with(['success' => $save_link_success_message]);
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error($e);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
     // fetch all the saved results
-    public function results(){
+    public function results()
+    {
         $results = Results::all();
 
-        if(!$results){
+        if (!$results) {
             return redirect()->back()->withErrors(['error' => 'Sorry we could not fetch all the crawled site url']);
         }
 
         return view('results')->with(['results' => $results]);
     }
     // Save crawled links
-    public function save_link($link, $code){
+    public function save_link($link, $code)
+    {
         $save_link = Results::create([
             'url' => $link,
             'code' => $code
         ]);
 
-        if(!$save_link){
+        if (!$save_link) {
             return false;
         }
 
@@ -126,52 +121,66 @@ class DashboardController extends Controller
     }
 
     // Delete previous crawls
-    public function delete_last_crawl(){
+    public function delete_last_crawl()
+    {
 
         try {
-
             $last_crawl = Results::all();
 
-            foreach ($last_crawl as $item){
+            foreach ($last_crawl as $item) {
                 $item->delete();
             }
 
             return true;
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
+            Log::error($e);
             return $e->getMessage();
         }
     }
 
     // Delete home page file
-    public function delete_home_page_file(){
-        // $home_page_path = public_path('homepage.html');
+    public function delete_home_page_file()
+    {
 
-        // Check if the index.html file exists and delete it
-        if (Storage::disk('public')->exists('index.html')) {
-            Storage::disk('public')->delete('index.html');
-            return true;
+        try {
+            // Check if the index.html file exists and delete it
+            if (Storage::disk('public')->exists('homepage.html')) {
+                Storage::disk('public')->delete('homepage.html');
+                return true;
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
+            return false;
         }
-
-        return false;
     }
 
     // delete site map file
-    public function delete_site_map_file(){
-        // Check if the index.html file exists and delete it
-        if (Storage::disk('public')->exists('sitemap.html')) {
-            Storage::disk('public')->delete('index.html');
-            return true;
+    public function delete_site_map_file()
+    {
+        try {
+            // Check if the index.html file exists and delete it
+            if (Storage::disk('public')->exists('sitemap.html')) {
+                Storage::disk('public')->delete('sitemap.html');
+                return true;
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
+            return false;
         }
-
-        return false;
     }
 
     public function run_cron_job()
     {
-        \Artisan::call('app:crawl-job');
+        try {
+            \Artisan::call('app:crawl-job');
 
-        // Redirect back to the previous page or to a success page
-        return redirect()->back()->with('success', 'Hourly crawling started successfully');
+            // Redirect back to the previous page or to a success page
+            return redirect()->back()->with('success', 'Hourly crawling started successfully');
+        } catch (\Exception $e) {
+
+            Log::error($e);
+
+            return redirect()->back()->with('error', 'Sorry, Hourly Cron job could not be started. Contact Admin');
+        }
     }
 }

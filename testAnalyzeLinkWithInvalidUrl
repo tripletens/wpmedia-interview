@@ -1,0 +1,16 @@
+
+
+An error occurred inside PHPUnit.
+
+Message:  syntax error, unexpected variable "$controller"
+Location: /Users/user/Herd/wpmedia-interview/tests/Feature/DashboardControllerTest.php:22
+
+#0 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/Runner/TestSuiteLoader.php(47): PHPUnit\Runner\TestSuiteLoader->loadSuiteClassFile('/Users/user/Her...')
+#1 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/Framework/TestSuite.php(244): PHPUnit\Runner\TestSuiteLoader->load('/Users/user/Her...')
+#2 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/Framework/TestSuite.php(261): PHPUnit\Framework\TestSuite->addTestFile('/Users/user/Her...')
+#3 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/TestSuiteMapper.php(100): PHPUnit\Framework\TestSuite->addTestFiles(Array)
+#4 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/TextUI/Configuration/TestSuiteBuilder.php(72): PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper->map('/Users/user/Her...', Object(PHPUnit\TextUI\Configuration\TestSuiteCollection), '', '')
+#5 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/TextUI/Application.php(340): PHPUnit\TextUI\Configuration\TestSuiteBuilder->build(Object(PHPUnit\TextUI\Configuration\Configuration))
+#6 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/src/TextUI/Application.php(108): PHPUnit\TextUI\Application->buildTestSuite(Object(PHPUnit\TextUI\Configuration\Configuration))
+#7 /Users/user/Herd/wpmedia-interview/vendor/phpunit/phpunit/phpunit(99): PHPUnit\TextUI\Application->run(Array)
+#8 {main}

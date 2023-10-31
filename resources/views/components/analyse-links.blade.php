@@ -15,6 +15,13 @@
         </div>
     @endif
 
+    @if (session('info'))
+        <div class="bg-blue-100 mb-3 text-blue-700 border border-blue-400 p-2 mt-4 rounded-md">
+            {{ session('info') }}
+        </div>
+    @endif
+
+
     <div class="mb-4">
         <form method="POST" action="{{ route('analyze_link') }}">
             @csrf

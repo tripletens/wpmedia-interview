@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 class CrawlJob extends Command
 {
     /**
@@ -30,14 +31,21 @@ class CrawlJob extends Command
         // run the site crawl job
         // Send a post request to the controller action
 
-        $app_url = env('APP_URL'); // this is the home page
+        try {
+            $app_url = env('APP_URL'); // this is the home page
 
-        $response = Http::post(env('APP_URL') . '/analyze_link', $app_url);
+            $code = Str::random(10);
 
-        if ($response->successful()) {
-            Log::info('Crawl / analysis feature run successfully');
-        } else {
-            Log::info('Crawl / analysis feature execution failed');
+            $response = Http::post(env('APP_URL') . '/analyze_link', [$app_url, $code]);
+
+            if ($response->successful()) {
+                Log::info('Crawl / analysis feature run successfully');
+            } else {
+                Log::info('Crawl / analysis feature execution failed');
+            }
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error($e);
         }
     }
 }
